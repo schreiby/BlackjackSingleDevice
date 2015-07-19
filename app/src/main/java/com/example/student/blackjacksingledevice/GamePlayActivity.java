@@ -140,7 +140,9 @@ public class GamePlayActivity extends Activity {
         game.printCards(players, playersName);
         //need to put this if statement in the startGame method
         if(isBlackJack(players[i])){
-            Toast.makeText(GamePlayActivity.this, playersName.get(i) + " has BlackJack!! Your turn is over. You Won!", Toast.LENGTH_LONG).show();
+            TextView blackJackStatus = new TextView(GamePlayActivity.this);
+            blackJackStatus.setText(playersName.get(i) + " has BlackJack!! Your turn is over. You Won!");
+            //Toast.makeText(GamePlayActivity.this, playersName.get(i) + " has BlackJack!! Your turn is over. You Won!", Toast.LENGTH_LONG).show();
             return;
         }
         promptUser(i, players, deck, playersName);
@@ -166,7 +168,9 @@ public class GamePlayActivity extends Activity {
         do{
             int sumOfCards = countCards(players[currentPlayer]);
             if(sumOfCards >  21){
-                Toast.makeText(GamePlayActivity.this, playersNames.get(currentPlayer)  + ", you Busted. Your turn is over; You lost ", Toast.LENGTH_LONG).show();
+                TextView busted = new TextView(GamePlayActivity.this);
+                busted.setText(playersNames.get(currentPlayer)  + ", you Busted. Your turn is over; You lost ");
+                //Toast.makeText(GamePlayActivity.this, playersNames.get(currentPlayer)  + ", you Busted. Your turn is over; You lost ", Toast.LENGTH_LONG).show();
                 //System.out.println(playersNames.get(currentPlayer)  + ", you Busted. Your turn is over; You lost ");
                 break;
             }
@@ -182,13 +186,18 @@ public class GamePlayActivity extends Activity {
             if(isHit)
             {
                 hit(deck, players[currentPlayer]);
-                Toast.makeText(GamePlayActivity.this, "You were dealt a " + getCardFaceValueText(players, currentPlayer, getPlayersFirstEmptyCardIndex(players[currentPlayer])-1),
-                        Toast.LENGTH_SHORT).show();
+                TextView hitResult = new TextView(GamePlayActivity.this);
+                hitResult.setText("You were dealt a " + getCardFaceValueText(players, currentPlayer, getPlayersFirstEmptyCardIndex(players[currentPlayer])-1));
+                /*Toast.makeText(GamePlayActivity.this, "You were dealt a " + getCardFaceValueText(players, currentPlayer, getPlayersFirstEmptyCardIndex(players[currentPlayer])-1),
+                        Toast.LENGTH_SHORT).show();*/
                 //System.out.println("You were dealt a " + getCardFaceValueText(players, currentPlayer, getPlayersFirstEmptyCardIndex(players[currentPlayer])-1));//need to add here if its a 10,11,12 that its king queen or jack
             }
-            else
-                Toast.makeText(GamePlayActivity.this, playersNames.get(currentPlayer) + ", Your turn is over", Toast.LENGTH_LONG).show();
+            else {
+                TextView stickResult = new TextView(GamePlayActivity.this);
+                stickResult.setText(playersNames.get(currentPlayer) + ", Your turn is over");
+                //Toast.makeText(GamePlayActivity.this, playersNames.get(currentPlayer) + ", Your turn is over", Toast.LENGTH_LONG).show();
                 //System.out.println(playersNames.get(currentPlayer) + ", Your turn is over");
+            }
         } while(isHit);
         // input.close();
     }
@@ -241,11 +250,14 @@ public class GamePlayActivity extends Activity {
     public void dealersTurn(int [][] players, boolean [] deck, ArrayList<String> playersNames){
         int dSum = countCards(players[players.length - 1]);
         boolean isHit;
-
+        //TextView card = new TextView(GamePlayActivity.this);
+        TextView dealer = new TextView(GamePlayActivity.this);
+        dealer.setText("It is the dealer's turn. \nThe dealers cards are:");
         //System.out.println("It is the dealer's turn. \nThe dealers cards are:"); //added this to print dealers first 2 cards
-        Toast.makeText(GamePlayActivity.this, "It is the dealer's turn. \nThe dealers cards are: ", Toast.LENGTH_LONG).show();
+        //Toast.makeText(GamePlayActivity.this, "It is the dealer's turn. \nThe dealers cards are: ", Toast.LENGTH_LONG).show();
         for (int i = 0; i < 2; i++)
-            Toast.makeText(GamePlayActivity.this, getCardFaceValueText(players, players.length -1, i), Toast.LENGTH_LONG).show();
+            dealer.append(getCardFaceValueText(players, players.length - 1, i));
+            //Toast.makeText(GamePlayActivity.this, getCardFaceValueText(players, players.length -1, i), Toast.LENGTH_LONG).show();
             // System.out.println(getCardFaceValueText(players, players.length -1, i));
         //check for blackjack here!
         do{
@@ -253,7 +265,8 @@ public class GamePlayActivity extends Activity {
             if (dSum < 17){
                 hit(deck, players[players.length - 1]);
                 dSum = countCards(players[players.length - 1]);
-                Toast.makeText(GamePlayActivity.this, "To see what the dealer has dealt, press enter!", Toast.LENGTH_LONG).show();
+                dealer.append("To see what the dealer has dealt, press enter!");
+                //Toast.makeText(GamePlayActivity.this, "To see what the dealer has dealt, press enter!", Toast.LENGTH_LONG).show();
                 //System.out.println("To see what the dealer has dealt, press enter!");
                 Scanner input = new Scanner(System.in);
                 input.nextLine();
